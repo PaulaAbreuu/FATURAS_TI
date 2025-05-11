@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastrar Loja</title>
+</head>
+<body>
+  <h2>Cadastro de Loja</h2>
+  <form method="POST">
+    <label>Nome da Loja:</label><br>
+    <input type="text" name="nome" required><br><br>
+
+    <label>Fornecedor de Internet:</label><br>
+    <input type="text" name="fornecedor_internet" required><br><br>
+
+    <label>Fornecedor de Alarme (opcional):</label><br>
+    <input type="text" name="fornecedor_alarme"><br><br>
+
+    <label>Dia de Vencimento da Fatura:</label><br>
+    <input type="date" name="vencimento" required><br><br>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <br>
+  <a href="/dashboard">Voltar</a>
+</body>
+</html>

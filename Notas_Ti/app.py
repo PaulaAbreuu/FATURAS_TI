@@ -7,13 +7,12 @@ import os
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'comprovantes'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 load_dotenv()
-
 app = Flask(__name__)
 app.secret_key= 'Rodrigues@2025@'
 app.permanent_session_lifetime = timedelta(minutes=30)
+UPLOAD_FOLDER = 'comprovantes'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -65,7 +64,7 @@ def cadastro_loja():
 
     return render_template('cadastro_loja.html')
 
-@app.route('/registrar-fatura', methods = ['GET', 'POST'])
+@app.route('/registrar-fatura', methods=['GET', 'POST'])
 def registrar_faturas():
     if not  session.get('logado'):
         return redirect('/')
@@ -82,7 +81,18 @@ def registrar_faturas():
         if arquivo:
             nome_arquivo = secure_filename(arquivo.filename)
             caminho = os.path.join(app.config['UPLOAD_FOLDER'], nome_arquivo)
-            arquivo.save()
+            arquivo.save(caminho)
+
+            cursor.execute("""
+                INSERT INTO faturas (loja_id, data_envio, comprovante)
+                VALUES (%s, %s, %s)
+            """, (loja_id, data_envio, nome_arquivo))
+            mysql.connection.commit()
+
+            flash("Fatura foi registrada!", "success")
+            return redirect('/dashboard')
+        
+        return render_template('registrar_fatura.html', lojas= lojas)
 
 @app.route('/logout')
 def logout():

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Fatura</title>
+</head>
+<body>
+  <h2>Registrar Envio de Fatura</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <label>Loja:</label><br>
+    <select name="loja" required>
+      {% for loja in lojas %}
+        <option value="{{ loja.id }}">{{ loja.nome }}</option>
+      {% endfor %}
+    </select><br><br>
+
+    <label>Data de envio:</label><br>
+    <input type="date" name="data_envio" required><br><br>
+
+    <label>Comprovante (PDF ou imagem):</label><br>
+    <input type="file" name="comprovante" accept=".pdf,.jpg,.jpeg,.png" required><br><br>
+
+    <button type="submit">Registrar</button>
+  </form>
+
+  <br>
+  <a href="/dashboard">Voltar</a>
+</body>
+</html>
